@@ -34,6 +34,12 @@ class PackageCall(MycroftSkill):
         settings will be available."""
         my_setting = self.settings.get('my_setting')
 
+    @intent_handler(IntentBuilder('pkgcallIntent').require('call'))
+    def handle_pkgcall_intent(self, message):
+        """ This is an Adapt intent handler, it is triggered by a keyword."""
+        self.speak_dialog("response")
+
+
     @intent_handler(IntentBuilder('ThankYouIntent').require('ThankYouKeyword'))
     def handle_thank_you_intent(self, message):
         """ This is an Adapt intent handler, it is triggered by a keyword."""
