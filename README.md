@@ -2,7 +2,7 @@
 Introductory Skill so that Skill Authors can see how a Mycroft Skill is put together
 
 ## About
-This is a basic Hello Word Skill that takes an _Utterance_ from the user and provides a voice response - a _Dialog_. This Skill demonstrates the basic directory and file structure of a Mycroft Skill, and is a good first Skill to study if you are interested in developing Skills for the Mycroft ecosystem.
+This is a First Mycroft Project that takes an _Utterance_ from the user and provides a voice response - a _Dialog_. 
 
 If you want to write **Skills** for Mycroft, Documentation is available:
 
@@ -15,9 +15,8 @@ If you want to write **Skills** for Mycroft, Documentation is available:
 * [Mycroft Message Bus](https://mycroft.ai/documentation/message-bus/)
 
 ## Examples
-* "Hello world"
-* "How are you?"
-* "Thank you"
+* "next"
+* "load project"
 
 ## Credits
 Mycroft AI (@MycroftAI)
@@ -26,7 +25,6 @@ Mycroft AI (@MycroftAI)
 **Configuration**
 
 ## Tags
-#helloworld
 #first-skill
-#hello
-#greeting
+#next
+#load project
