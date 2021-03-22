@@ -45,7 +45,7 @@ class LoadProject(MycroftSkill):
         my_setting = self.settings.get('my_setting')
 
     def loadproject(self):
-        self.projectlist=pd.read_csv('~/mycroft-core/skills/loadproject/projectlist.txt',header=None,sep=',').values.tolist()
+        self.projectlist=pd.read_csv('~/mycroft-core/skills/mycroft-loadproject/projectlist.txt',header=None,sep=',').values.tolist()
 
     @intent_handler(IntentBuilder('showprojIntent').require('showproj'))
     def handle_showproj_intent(self, message):
