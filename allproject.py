@@ -1,5 +1,5 @@
-import pandas as pd
+__version__ = '0.1.0'
 
-def loadproject():
-    list="hi is the first word i learn!"
-    return list
+def packageproject():
+    var_package="You call a package variable"
+    return var_package

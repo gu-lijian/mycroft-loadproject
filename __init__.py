@@ -18,9 +18,11 @@
 from adapt.intent import IntentBuilder
 from mycroft import MycroftSkill, intent_handler
 import pandas as pd
-#import allproject
+import git
+import shutil
 
-class PackageCall(MycroftSkill):
+
+class LoadProject(MycroftSkill):
     def __init__(self):
         """ The __init__ method is called when the Skill is first constructed.
         It is often used to declare variables or perform setup actions, however
@@ -28,7 +30,12 @@ class PackageCall(MycroftSkill):
         """
         super().__init__()
         self.learning = True
-        self.var_class='You call a class variable'
+        self.projectlist=[]
+        self.projectselect=''
+        self.basepath='~/mycroft-core/skills'
+        self.gitpath='https://github.com/twming/'
+        self.loadproject()
+ 
 
     def initialize(self):
         """ Perform any final setup needed for the skill here.
@@ -38,36 +45,48 @@ class PackageCall(MycroftSkill):
         my_setting = self.settings.get('my_setting')
 
     def loadproject(self):
-        var_func='You call a function variable'
-        return var_func
+        self.projectlist=pd.read_csv('~/mycroft-core/skills/loadproject/projectlist.txt',header=None,sep=',').values.tolist()
 
+    @intent_handler(IntentBuilder('showprojIntent').require('showproj'))
+    def handle_showproj_intent(self, message):
+        if self.projectlist==[]:
+            self.speak_dialog('There is no project.')
+        else:     
+            for item in self.projectlist:
+                self.log.info("Project :"+item[0]+", Path :"+item[1])
+            self.speak_dialog('Here is all the project.')
 
-    @intent_handler(IntentBuilder('projloadIntent').require('startload'))
-    def handle_projload_intent(self, message):
-        """ This is an Adapt intent handler, it is triggered by a keyword."""
-        self.speak_dialog('completeload')
-        self.speak_dialog('Hello')
-        var_local='You call a local variable'
-        self.speak_dialog(var_local)
-        self.speak_dialog(self.var_class)
-        var_func=self.loadproject()
-        self.speak_dialog(var_func)
+    @intent_handler('selectproj.intent')
+    def handle_selectproj_intent(self, message):
+        item=message.data['number']
+        if item=='one':
+            self.projectselect=self.projectlist[0][1]
+            self.speak_dialog('project one selected')
+        elif item=='two':
+            self.projectselect=self.projectlist[1][1]
+            self.speak_dialog('project two selected')
+        elif item=='three':     
+            self.projectselect=self.projectlist[2][1]
+            self.speak_dialog('project three selected')
+        self.log.info("Project :"+self.projectselect)
 
-    @intent_handler(IntentBuilder('pkgcallIntent').require('call'))
-    def handle_pkgcall_intent(self, message):
-        """ This is an Adapt intent handler, it is triggered by a keyword."""
-        self.speak_dialog('response')
-        self.log.info("If you see the package 2554, that is the right response.")
+    @intent_handler(IntentBuilder('installprojIntent').require('installproj'))
+    def handle_installproj_intent(self, message):
+        if self.projectselect=='':
+            self.speak_dialog('Please select a project.')
+        else:  
+            git.Git(self.basepath).clone(self.gitpath+self.projectselect+'.git')
+            self.speak_dialog('project install complete')
+            self.log.info("project install complete")
 
-    @intent_handler('HowAreYou.intent')
-    def handle_how_are_you_intent(self, message):
-        """ This is a Padatious intent handler.
-        It is triggered using a list of sample phrases."""
-        self.speak_dialog("how.are.you")
+    #same as using 'uninstall <project>'
+    @intent_handler(IntentBuilder('removeprojIntent').require('removeproj'))
+    def handle_removeproj_intent(self, message):
+        shutil.rmtree('/home/train/mycroft-core/skills/'+self.projectselect)
 
     def stop(self):
         pass
 
 
 def create_skill():
-    return PackageCall()
+    return LoadProject()
