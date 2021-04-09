@@ -82,7 +82,7 @@ class LoadProject(MycroftSkill):
     #same as using 'uninstall <project>'
     @intent_handler(IntentBuilder('removeprojIntent').require('removeproj'))
     def handle_removeproj_intent(self, message):
-        shutil.rmtree('/home/train/mycroft-core/skills/'+self.projectselect)
+        shutil.rmtree('/opt/mycroft/skills/'+self.projectselect)
 
     def stop(self):
         pass
