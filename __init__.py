@@ -17,7 +17,7 @@
 
 from adapt.intent import IntentBuilder
 from mycroft import MycroftSkill, intent_handler
-import pandas as pd
+#import pandas as pd
 import git
 import shutil
 
@@ -45,7 +45,9 @@ class LoadProject(MycroftSkill):
         my_setting = self.settings.get('my_setting')
 
     def loadproject(self):
-        self.projectlist=pd.read_csv('~/mycroft-core/skills/mycroft-loadproject/projectlist.txt',header=None,sep=',').values.tolist()
+        #self.projectlist=pd.read_csv('~/mycroft-core/skills/mycroft-loadproject/projectlist.txt',header=None,sep=',').values.tolist()
+        with open('/opt/mycroft/skills/mycroft-loadproject/projectlist.txt') as f:
+            self.projectlist=[line.rstrip().split(',') for line in f]
 
     @intent_handler(IntentBuilder('showprojIntent').require('showproj'))
     def handle_showproj_intent(self, message):
@@ -59,13 +61,13 @@ class LoadProject(MycroftSkill):
     @intent_handler('selectproj.intent')
     def handle_selectproj_intent(self, message):
         item=message.data['number']
-        if item=='one':
+        if item=='one' or item=='1':
             self.projectselect=self.projectlist[0][1]
             self.speak_dialog('project one selected')
-        elif item=='two':
+        elif item=='two' or item=='2':
             self.projectselect=self.projectlist[1][1]
             self.speak_dialog('project two selected')
-        elif item=='three':     
+        elif item=='three' or item=='3':     
             self.projectselect=self.projectlist[2][1]
             self.speak_dialog('project three selected')
         self.log.info("Project :"+self.projectselect)
@@ -83,6 +85,7 @@ class LoadProject(MycroftSkill):
     @intent_handler(IntentBuilder('removeprojIntent').require('removeproj'))
     def handle_removeproj_intent(self, message):
         shutil.rmtree('/opt/mycroft/skills/'+self.projectselect)
+        self.speak_dialog('project remove')
 
     def stop(self):
         pass
