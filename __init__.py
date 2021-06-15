@@ -76,7 +76,9 @@ class LoadProject(MycroftSkill):
     def handle_installproj_intent(self, message):
         if self.projectselect=='':
             self.speak_dialog('Please select a project.')
-        else:  
+        else:
+            print('basepath is: ' + self.basepath)
+            print('gitpath is: ' + self.gitpath)
             git.Git(self.basepath).clone(self.gitpath+self.projectselect+'.git')
             self.speak_dialog('project install complete')
             self.log.info("project install complete")
