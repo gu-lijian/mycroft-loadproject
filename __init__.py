@@ -33,7 +33,8 @@ class LoadProject(MycroftSkill):
         self.projectlist=[]
         self.projectselect=''
         # TODO change basepath to be your mycroft skills folder
-        self.basepath='~/Documents/mycroft-core/skills'
+        # self.basepath='~/mycroft-core/skills'
+        self.basepath = './skills'
         # TODO load gitpath from projectlist.txt instead of hardcoded
         self.gitpath='https://github.com/twming/'
         self.loadproject()
